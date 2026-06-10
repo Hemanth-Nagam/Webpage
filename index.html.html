@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LoRa Water Level Monitoring Dashboard</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>LoRa Water Level Monitoring Dashboard</header>
+
+  <div class="statusPanel">
+    <div class="statusItem">
+      LoRa node Status
+      <div id="deviceStatus">🟡 Connecting...</div>
+    </div>
+
+    <div class="statusItem">
+      Last Update
+      <div id="lastUpdate">--</div>
+    </div>
+
+    <div class="statusItem">
+      RSSI
+      <div id="rssiValue">-- dBm</div>
+    </div>
+
+    <div class="statusItem">
+      SNR
+      <div id="snrValue">-- dB</div>
+    </div>
+  </div>
+
+  <div id="dashboard">
+    <div class="row">
+      <div class="card" onclick="openBlock('distanceBlock')">
+        <div id="distance">
+          <div id="waterLevelText"> -- cm (-- m)</div>
+        </div>
+      </div>
+
+      <div class="card imageCard">
+        <img src="loradata.png" alt="Water Monitoring" class="dashboardImage" />
+      </div>
+
+      <div class="card" onclick="openBlock('mapBlock')">
+        <h3>Location</h3>
+        <div id="mapSmall"></div>
+      </div>
+    </div>
+
+    <div class="graphWrapper">
+      <div class="graphCard">
+        <h3 style="text-align: center;">Water Level Graph </h3>
+        <canvas id="chart"></canvas>
+        <div style="text-align: center; margin-top: 20px;">
+          <button class="viewBtn" onclick="openBlock('historyBlock')">
+            View History
+          </button>
+          <button class="csvBtn" onclick="downloadCSV()">
+            Download CSV
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="expand" id="distanceBlock">
+    <button class="back" onclick="closeBlock()">← Back</button>
+    <h2>Water Level</h2>
+    <h1 id="distanceLarge">--</h1>
+  </div>
+
+  <div class="expand" id="mapBlock">
+    <button class="back" onclick="closeBlock()">← Back</button>
+    <h2>Location</h2>
+    <div id="map"></div>
+  </div>
+
+  <div class="expand" id="historyBlock">
+    <button class="back" onclick="closeBlock()">← Back</button>
+    <h2>Historical Data (Last 24 Hours)</h2>
+    <div class="historyScroll">
+      <table id="dataTable">
+        <tr>
+          <th>Date & Time</th>
+          <th>Water Level</th>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <script src="script.js"></script>
+</body>
+</html>
